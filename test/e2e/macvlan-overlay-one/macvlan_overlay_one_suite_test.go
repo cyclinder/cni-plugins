@@ -123,13 +123,13 @@ var _ = BeforeSuite(func() {
 
 var _ = AfterSuite(func() {
 	// delete deployment
-	err := frame.DeleteDeployment(name, namespace)
-	Expect(err).NotTo(HaveOccurred(), "failed to delete deployment %v/%v", namespace, name)
-
-	// delete service
-	err = frame.DeleteService(name, namespace)
-	Expect(err).To(Succeed())
-
-	err = frame.DeleteNamespace(namespace)
-	Expect(err).NotTo(HaveOccurred(), "failed to delete namespace %v", namespace)
+	//err := frame.DeleteDeployment(name, namespace)
+	//Expect(err).NotTo(HaveOccurred(), "failed to delete deployment %v/%v", namespace, name)
+	//
+	//// delete service
+	//err = frame.DeleteService(name, namespace)
+	//Expect(err).To(Succeed())
+	//
+	//err = frame.DeleteNamespace(namespace)
+	//Expect(err).NotTo(HaveOccurred(), "failed to delete namespace %v", namespace)
 })

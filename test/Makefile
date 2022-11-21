@@ -27,8 +27,12 @@ e2e:
 	else \
 	  export E2E_IPV4_ENABLED=true ; export E2E_IPV6_ENABLED=true ; \
 	fi ; \
+	exit 1 ; \
 	ginkgo --race --timeout=${E2E_TIMEOUT} --output-interceptor-mode=none --json-report e2ereport.json --output-dir ${ROOT_DIR}/../.tmp \
-	 --label-filter="${E2E_GINKGO_LABELS}"  -randomize-suites -randomize-all  -vv --fail-fast ${E2E_GINKGO_OPTIONS} -r e2e/*
+	 --label-filter="${E2E_GINKGO_LABELS}"  -randomize-suites -randomize-all  -vv --fail-fast ${E2E_GINKGO_OPTIONS} -r e2e/* ; \
+	kubectl get  po -A  --kubeconfig ${E2E_KUBECONFIG} ; \
+	kubectl describe  po -A -l app=one-macvlan-overlay --kubeconfig ${E2E_KUBECONFIG} ; \
+
 
 .PHONY: install
 install:
@@ -48,6 +52,7 @@ install:
 	export CNI_PLUGINS_VERSION=${CNI_PLUGINS_VERSION} ; \
 	export RUN_ON_LOCAL=${RUN_ON_LOCAL} ; \
 	export META_PLUGINS_CI_REPO=${META_PLUGINS_CI_REPO} ; \
+	export META_PLUGINS_CI_TAG=${META_PLUGINS_CI_TAG} ; \
 	export SPIDERPOOL_VERSION=${SPIDERPOOL_VERSION} ; \
 	for script in `ls scripts/install/` ; do \
 	  echo "Running $${script}"  ; \
