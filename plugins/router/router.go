@@ -368,6 +368,11 @@ func addChainedIPRoute(logger *zap.Logger, netNS ns.NetNS, enableIpv4, enableIpv
 		logger.Error(err.Error())
 		return fmt.Errorf("failed to get ipv4 ipaddress for default overlay interface(%s): %v", defaultOverlayInterface, err)
 	}
+
+	if defaultOverlayIP == nil {
+		return fmt.Errorf("unexpect defaultOverlayIP is nil, Please ensure if defaultOverlayInterface in pod exsit")
+	}
+
 	// get overlay veth device via 'ip r get <defaultOverlayIP4>' in host ns
 	routes, err := netlink.RouteGet(defaultOverlayIP)
 	if err != nil {
